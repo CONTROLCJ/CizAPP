@@ -1,4 +1,7 @@
 # 🎨 ÇizAPP - Profesyonel Dijital Defter ve Çizim Uygulaması
+* WEB TABANLI PROGRAMLAMA:
+* AD SOYAD: YUNUS AYKUT
+* ÖĞRENCİ NO:24080410012
 
 ![ÇizAPP Logo](file:///C:/Users/ASUS/.gemini/antigravity/brain/37ac3de9-fc29-4b90-bcbb-c041d93b689c/cizapp_logo_1778439127404.png)
 
@@ -34,5 +37,8 @@
 * **Double Buffering:** Çizim esnasındaki takılmaları engellemek için `mainCanvas` ve `draftCanvas` olarak çalışan çift katmanlı tuval motoru.
 * **Performans Optimizasyonları:** Akıcı taşıma ve yakınlaştırma işlemleri için Canvas'ı her karede yeniden çizmek yerine **Donanım Hızlandırmalı CSS Transform (`translate`, `scale`)** kullanılmıştır. Fare koordinatları bu transform matrisine göre `screenToWorld` fonksiyonu ile mikrosaniye bazında gerçek zamanlı çevrilir.
 
----
-**Geliştirici:** Sizin Vizyonunuz, AI'nin Kodlaması ile hayat buldu. 🌟
+* 
+© 2025 [YUNUS AYKUT]. Tüm hakları saklıdır.
+Bu yazılım izinsiz kopyalanamaz, dağıtılamaz, satılamaz.
+
+
