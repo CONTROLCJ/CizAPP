@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profesyonel Canvas Defteri</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Üst Bar: Favoriler ve Belge Araçları -->
+    <div class="favorites-bar" id="favorites-bar" style="display: flex; align-items: center;">
+        <div style="display: flex; gap: 10px; align-items: center; flex: 1;">
+            <span>⭐ Favoriler:</span>
+            <button class="fav-btn" data-index="0" title="1. Favori"></button>
+            <button class="fav-btn" data-index="1" title="2. Favori"></button>
+            <button class="fav-btn" data-index="2" title="3. Favori"></button>
+            <button class="fav-btn" data-index="3" title="4. Favori"></button>
+            <button class="fav-btn" data-index="4" title="5. Favori"></button>
+            <span class="fav-hint">(Kaydet: boş kutuya tıkla / Sil: sağ tıkla)</span>
+        </div>
+        
+        <div style="display: flex; justify-content: center; align-items: center; gap: 8px; flex: 1;">
+            <button id="btn-undo" class="action-btn" title="Geri Al (Ctrl+Z)" style="border-radius: 50%; width: 36px; height: 36px; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 16px;">↩️</button>
+            <button id="btn-redo" class="action-btn" title="İleri Al (Ctrl+Y)" style="border-radius: 50%; width: 36px; height: 36px; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 16px;">↪️</button>
+            <button id="btn-clear" class="action-btn action-danger" title="Geçerli Sayfayı Temizle" style="padding: 6px 12px; font-weight: bold; border-radius: 20px; font-size: 13px;">🗑️ Temizle</button>
+        </div>
+
+        <div class="document-tools" style="flex: 1; display: flex; justify-content: flex-end;">
+            <button id="btn-paper-settings" title="Kağıt Ayarları">📄 Kağıt</button>
+            <button id="btn-pages-panel" title="Sayfalar">📑 Sayfalar</button>
+            <button id="btn-layers-panel" title="Katmanlar">🎨 Katmanlar</button>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Sol Araç Çubuğu -->
+        <aside class="toolbar">
+            <div class="tool-section">
+                <h3>Araçlar</h3>
+                <div class="tool-group">
+                    <button class="tool-btn active" data-tool="brush" title="Fırça (B)">🖌️ Fırça</button>
+                    <select id="brush-type" class="tool-select">
+                        <option value="normal">Normal</option>
+                        <option value="spray">Sprey</option>
+                        <option value="marker">Fosforlu</option>
+                    </select>
+                </div>
+                
+                <button class="tool-btn" data-tool="line" title="Çizgi (L)">📏 Çizgi</button>
+                <button class="tool-btn" data-tool="rect" title="Dikdörtgen (R)">⬛ Dikdörtgen</button>
+                <button class="tool-btn" data-tool="circle" title="Daire (C)">⭕ Daire</button>
+                
+                <button class="tool-btn" data-tool="eraser" title="Silgi (E)">🧽 Silgi</button>
+
+                <button class="tool-btn" data-tool="fill" title="Boya Kovası (F)">🪣 Doldur</button>
+                <button class="tool-btn" data-tool="eyedropper" title="Damalık (I)">💉 Damalık</button>
+                
+                <div class="tool-group">
+                    <button class="tool-btn" data-tool="text" title="Metin (T)">🔤 Metin</button>
+                    <select id="text-font" class="tool-select" style="width: 80px; font-size: 11px;">
+                        <option value="Arial" style="font-family: Arial;">Arial</option>
+                        <option value="Times New Roman" style="font-family: 'Times New Roman';">Times</option>
+                        <option value="Courier New" style="font-family: 'Courier New';">Courier</option>
+                        <option value="Comic Sans MS" style="font-family: 'Comic Sans MS';">Comic</option>
+                        <option value="Verdana" style="font-family: Verdana;">Verdana</option>
+                    </select>
+                </div>
+                <div class="tool-group" id="text-options" style="display: none; justify-content: flex-end;">
+                    <button id="btn-text-bold" class="action-btn small-btn" style="font-weight: bold; width: 40px; flex: none;">B</button>
+                    <button id="btn-text-italic" class="action-btn small-btn" style="font-style: italic; width: 40px; flex: none;">I</button>
+                </div>
+                
+                <div class="tool-group">
+                    <button class="tool-btn" data-tool="select" title="Seçim (S)">🔲 Seç</button>
+                    <select id="select-type" class="tool-select">
+                        <option value="rect">Dikdörtgen</option>
+                        <option value="lasso">Kement</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="tool-section">
+                <h3>Özellikler & Ayarlar</h3>
+                <div class="property-group">
+                    <label for="color-picker">Renk:</label>
+                    <input type="color" id="color-picker" value="#000000">
+                    <div class="quick-colors" id="quick-colors">
+                        <div class="q-color" style="background: #ff0000;" data-color="#ff0000"></div>
+                        <div class="q-color" style="background: #0000ff;" data-color="#0000ff"></div>
+                        <div class="q-color" style="background: #00ff00;" data-color="#00ff00"></div>
+                        <div class="q-color" style="background: #ffff00;" data-color="#ffff00"></div>
+                        <div class="q-color" style="background: #ff00ff;" data-color="#ff00ff"></div>
+                        <div class="q-color" style="background: #00ffff;" data-color="#00ffff"></div>
+                        <div class="q-color" style="background: #ffffff;" data-color="#ffffff"></div>
+                    </div>
+                </div>
+                <div class="property-group">
+                    <label for="opacity-slider">Opaklık: <span id="opacity-label">100</span>%</label>
+                    <input type="range" id="opacity-slider" min="1" max="100" value="100">
+                </div>
+                <div class="property-group">
+                    <label for="brush-size">Kalınlık: <span id="size-label">5</span>px</label>
+                    <input type="range" id="brush-size" min="1" max="50" value="5">
+                </div>
+                <div class="property-group checkbox-group">
+                    <input type="checkbox" id="symmetry-toggle">
+                    <label for="symmetry-toggle">Simetri (Aynalı)</label>
+                </div>
+            </div>
+
+            <div class="tool-section">
+                <h3>Aksiyonlar & Filtreler</h3>
+                <button id="btn-import" class="action-btn" title="Resim Yükle">📁 Resim Yükle</button>
+                <input type="file" id="file-input" accept="image/*" style="display:none;">
+                
+                <div class="filter-group">
+                    <button id="btn-filter-bw" class="action-btn small-btn" title="Siyah Beyaz">S/B</button>
+                    <button id="btn-filter-invert" class="action-btn small-btn" title="Ters Çevir">Ters</button>
+                </div>
+
+                <button id="btn-download" class="action-btn action-success" title="PNG İndir">💾 PNG İndir</button>
+                <button id="btn-export-pdf" class="action-btn action-success" title="Tüm Sayfaları PDF Olarak Kaydet">📄 PDF Kaydet</button>
+                <button id="btn-reset" class="action-btn action-danger" title="Tüm Uygulamayı Sıfırla" style="margin-top: 15px;">⚠️ Tamamen Sıfırla</button>
+            </div>
+
+            <div class="hints">
+                <p><strong>Kaydır:</strong> Boşluk+Sürükle / Orta Tuş</p>
+                <p><strong>Yakınlaş:</strong> Fare Tekerleği</p>
+                <p><strong>Menü:</strong> Herhangi bir yerde Sağ Tık</p>
+            </div>
+        </aside>
+
+        <!-- Canvas Alanı (Viewport) -->
+        <main class="canvas-container" id="canvas-container">
+            
+            <!-- Taşıma ve Büyütme İşlemlerinin Yapılacağı Gerçek Kağıt Alanı -->
+            <div id="canvas-wrapper" class="canvas-wrapper">
+                <!-- Kağıt Arka Planı (CSS Desenleri İçin) -->
+                <div id="background-layer" class="background-layer"></div>
+                
+                <!-- Kalıcı çizimlerin yapılacağı asıl katman -->
+                <canvas id="main-canvas"></canvas>
+                
+                <!-- Çizim anındaki geçici şekilleri gösteren UI katmanı -->
+                <canvas id="draft-canvas"></canvas>
+            </div>
+            
+            <input type="text" id="text-input-overlay" style="display: none; position: absolute; z-index: 10; background: transparent; border: 1px dashed #007acc; outline: none; padding: 2px;">
+
+            <!-- Katmanlar Paneli -->
+            <div id="layers-panel" class="floating-panel layers-panel" style="display: none;">
+                <h4>🎨 Katmanlar</h4>
+                <div id="layers-list" class="layers-list"></div>
+                <div class="layers-actions">
+                    <button onclick="window.editorApp.addLayer()" title="Yeni Katman Ekle">➕ Ekle</button>
+                    <button onclick="window.editorApp.moveActiveLayerUp()" title="Yukarı Taşı">↑ Yukarı</button>
+                    <button onclick="window.editorApp.moveActiveLayerDown()" title="Aşağı Taşı">↓ Aşağı</button>
+                    <button onclick="window.editorApp.flattenAllLayers()" title="Tüm Katmanları Birleştir" style="color:#f0a030;">🗳️ Birleştir</button>
+                </div>
+            </div>
+            
+            
+            <!-- Tuval Sağ Tık Menüsü (Context Menu) -->
+            <div id="context-menu" class="context-menu" style="display: none;">
+                <div class="context-item" id="ctx-paste" style="display: none;">📋 Yapıştır</div>
+                <div class="context-item" id="ctx-cut">✂️ Kes</div>
+                <div class="context-item" id="ctx-copy">📋 Kopyala</div>
+                <div class="context-item" id="ctx-delete">🗑️ Sil</div>
+                <div class="context-item" id="ctx-cancel">❌ İptal</div>
+            </div>
+
+            <!-- Sayfalar Sağ Tık Menüsü -->
+            <div id="page-context-menu" class="context-menu" style="display: none;">
+                <div class="context-item" id="pctx-paste" style="display: none;">📋 Sayfayı Yapıştır</div>
+                <div class="context-item" id="pctx-copy">📋 Sayfayı Kopyala</div>
+                <div class="context-item" id="pctx-cut">✂️ Sayfayı Kes</div>
+                <div class="context-item" id="pctx-delete">🗑️ Sayfayı Sil</div>
+                <div class="context-item" id="pctx-cancel">❌ İptal</div>
+            </div>
+
+            <!-- Kağıt Ayarları Popup -->
+            <div id="paper-settings-popup" class="floating-panel paper-settings" style="display:none;">
+                <h4>Kağıt Ayarları</h4>
+                <div class="property-group">
+                    <label>Renk:</label>
+                    <div class="paper-colors">
+                        <div class="p-color" style="background: #ffffff;" data-color="#ffffff" title="Beyaz"></div>
+                        <div class="p-color" style="background: #f4ecd8;" data-color="#f4ecd8" title="Saman Kağıdı"></div>
+                        <div class="p-color" style="background: #e6f2ff;" data-color="#e6f2ff" title="Soluk Mavi"></div>
+                        <div class="p-color" style="background: #e6ffe6;" data-color="#e6ffe6" title="Soluk Yeşil"></div>
+                    </div>
+                </div>
+                <div class="property-group">
+                    <label>Desen:</label>
+                    <select id="paper-pattern-select" class="tool-select" style="width: 100%;">
+                        <option value="none">Düz Kağıt</option>
+                        <option value="grid">Kareli (Grid)</option>
+                        <option value="lined">Çizgili Defter</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Sayfalar Paneli -->
+            <div id="pages-panel" class="floating-panel pages-panel" style="display:none;">
+                <h4>Defter Sayfaları</h4>
+                <div id="pages-list" class="pages-list"></div>
+                <button id="btn-new-page" class="action-btn action-success" style="margin-top: 10px;">➕ Yeni Sayfa</button>
+            </div>
+            
+        </main>
+    </div>
+
+    <!-- Uygulamanın başlangıç noktası -->
+    <script src="app.js"></script>
+</body>
+</html>

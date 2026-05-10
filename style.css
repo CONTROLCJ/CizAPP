@@ -1,0 +1,174 @@
+/* Temel Reset ve Font Ailesi */
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body { background-color: #1e1e1e; color: #e0e0e0; overflow: hidden; display: flex; flex-direction: column; height: 100vh; }
+
+/* Favoriler ve Doküman Çubuğu */
+.favorites-bar { height: 40px; background-color: #2d2d30; border-bottom: 1px solid #333; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; flex-shrink: 0; z-index: 50; }
+.fav-btn { width: 30px; height: 30px; border-radius: 50%; border: 2px dashed #555; background-color: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; margin: 0; transition: all 0.2s; font-size: 16px; }
+.fav-btn.saved { border: 2px solid #007acc; background-color: #333; }
+.fav-btn:hover { border-color: #007acc; transform: scale(1.1); }
+.fav-hint { font-size: 11px; color: #858585; margin-left: 10px; }
+.document-tools { display: flex; gap: 10px; }
+.document-tools button { padding: 5px 10px; font-size: 13px; background: #3e3e42; border: 1px solid #555; border-radius: 4px; color: #fff; cursor: pointer; }
+.document-tools button:hover { background: #505055; }
+
+/* Ana Taşıyıcı */
+.app-container { display: flex; flex-grow: 1; overflow: hidden; position: relative; }
+
+/* Sol Araç Çubuğu */
+.toolbar { width: 260px; background-color: #252526; border-right: 1px solid #333; display: flex; flex-direction: column; padding: 15px; box-shadow: 2px 0 10px rgba(0,0,0,0.3); z-index: 10; overflow-y: auto; }
+.toolbar::-webkit-scrollbar { width: 6px; }
+.toolbar::-webkit-scrollbar-track { background: transparent; }
+.toolbar::-webkit-scrollbar-thumb { background: #555; border-radius: 3px; }
+.tool-section { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #3e3e42; }
+.tool-section h3 { font-size: 12px; text-transform: uppercase; color: #858585; margin-bottom: 10px; letter-spacing: 1px; }
+
+/* Buton Grupları ve Select'ler */
+.tool-group { display: flex; gap: 5px; margin-bottom: 5px; }
+.tool-group .tool-btn { flex-grow: 1; margin-bottom: 0; }
+.tool-select { width: 90px; background-color: #333; color: #e0e0e0; border: 1px solid #444; border-radius: 4px; padding: 5px; font-size: 12px; outline: none; }
+.tool-select:focus { border-color: #007acc; }
+
+button { width: 100%; padding: 8px 10px; margin-bottom: 5px; background-color: #333333; color: #e0e0e0; border: 1px solid transparent; border-radius: 4px; cursor: pointer; text-align: left; transition: all 0.2s; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+button:hover { background-color: #3e3e42; }
+button.active { background-color: #094771; border-color: #007acc; }
+.action-btn { justify-content: center; text-align: center; background-color: #2d2d30; border: 1px solid #444; }
+.action-danger:hover { background-color: #7a2222; border-color: #a12c2c; }
+.action-success:hover { background-color: #1d5c2f; border-color: #267a3e; }
+.filter-group { display: flex; gap: 5px; }
+.small-btn { flex: 1; }
+
+/* Renk, Kalınlık, Opaklık */
+.property-group { margin-bottom: 15px; }
+.checkbox-group { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.checkbox-group input[type="checkbox"] { width: 16px; height: 16px; accent-color: #007acc; cursor: pointer; }
+.checkbox-group label { margin-bottom: 0; cursor: pointer; }
+.property-group label { display: block; margin-bottom: 5px; font-size: 13px; color: #cccccc; }
+input[type="color"] { width: 100%; height: 35px; padding: 0; border: none; border-radius: 4px; cursor: pointer; background-color: transparent; }
+input[type="range"] { width: 100%; accent-color: #007acc; cursor: pointer; }
+
+/* Hızlı Renkler */
+.quick-colors { display: flex; gap: 5px; margin-top: 5px; }
+.q-color { width: 25px; height: 25px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: transform 0.2s; }
+.q-color:hover { transform: scale(1.2); border-color: #fff; }
+
+.paper-colors { display: flex; gap: 5px; }
+.p-color { width: 30px; height: 30px; border-radius: 4px; border: 2px solid #555; cursor: pointer; transition: transform 0.2s; }
+.p-color:hover { transform: scale(1.1); border-color: #007acc; }
+
+.hints { margin-top: auto; font-size: 11px; color: #858585; background-color: #1e1e1e; padding: 10px; border-radius: 4px; }
+.hints p { margin-bottom: 5px; }
+
+/* Canvas Konteyneri */
+.canvas-container { flex-grow: 1; position: relative; background-color: #121212; cursor: crosshair; overflow: hidden; }
+
+/* Sabit Kağıt Boyutu Wrapper (Transform bu elemana uygulanacak) */
+.canvas-wrapper { position: absolute; top: 0; left: 0; width: 1200px; height: 1600px; background-color: transparent; box-shadow: 0 0 20px rgba(0,0,0,0.5); transform-origin: 0 0; }
+
+/* Kağıt Zemin Katmanı */
+.background-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-color: #ffffff; }
+.background-layer.grid { background-image: linear-gradient(rgba(100,100,100,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(100,100,100,0.3) 1px, transparent 1px); background-size: 40px 40px; }
+.background-layer.lined { background-image: linear-gradient(transparent 95%, rgba(100,100,100,0.4) 95%); background-size: 100% 40px; }
+
+.canvas-container.panning { cursor: grab !important; }
+.canvas-container.panning:active { cursor: grabbing !important; }
+
+/* Cursors */
+.canvas-container.tool-brush { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><text x="0" y="20" font-size="20">🖌️</text></svg>') 0 24, crosshair; }
+.canvas-container.tool-line { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><text x="0" y="20" font-size="20">📏</text></svg>') 0 24, crosshair; }
+.canvas-container.tool-rect { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><text x="0" y="20" font-size="20">⬛</text></svg>') 0 24, crosshair; }
+.canvas-container.tool-circle { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><text x="0" y="20" font-size="20">⭕</text></svg>') 0 24, crosshair; }
+.canvas-container.tool-eraser { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><text x="0" y="20" font-size="20">🧽</text></svg>') 0 24, cell; }
+.canvas-container.tool-fill { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><text x="0" y="20" font-size="20">🪣</text></svg>') 0 24, alias; }
+.canvas-container.tool-text { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><text x="0" y="20" font-size="20">🔤</text></svg>') 0 24, text; }
+.canvas-container.tool-select { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><text x="0" y="20" font-size="20">🔲</text></svg>') 0 24, crosshair; }
+.canvas-container.tool-select.dragging { cursor: move !important; }
+.canvas-container.tool-eyedropper { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><text x="0" y="20" font-size="20">💉</text></svg>') 0 24, crosshair; }
+
+/* Boyutlandırma Tutamacı (Resize Handle) */
+.resize-handle { position: absolute; width: 14px; height: 14px; background-color: #fff; border: 2px solid #007acc; border-radius: 50%; z-index: 100; cursor: nwse-resize; display: none; }
+
+canvas { position: absolute; top: 0; left: 0; transform-origin: 0 0; }
+#main-canvas { z-index: 1; background-color: transparent; }
+#draft-canvas { z-index: 2; pointer-events: none; }
+
+/* Floating Panels */
+.floating-panel { position: absolute; top: 10px; right: 10px; background-color: #252526; border: 1px solid #454545; border-radius: 6px; padding: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 60; }
+.floating-panel h4 { margin-bottom: 15px; color: #fff; font-size: 14px; border-bottom: 1px solid #333; padding-bottom: 5px; }
+.paper-settings { width: 200px; right: 10px; }
+.pages-panel { width: 220px; right: 110px; max-height: 80vh; overflow-y: auto; }
+
+/* Sayfalar Listesi */
+.pages-list { display: flex; flex-direction: column; gap: 10px; }
+.page-item { background: #333; border: 2px solid transparent; border-radius: 4px; padding: 5px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.2s; }
+.page-item:hover { background: #3e3e42; }
+.page-item.active { border-color: #007acc; background: #2d2d30; }
+.page-thumb { width: 60px; height: 40px; background: #fff; border-radius: 2px; object-fit: contain; }
+.page-info { flex-grow: 1; margin-left: 10px; color: #ccc; font-size: 12px; }
+.page-options { color: #aaa; padding: 5px; cursor: pointer; }
+.page-options:hover { color: #fff; }
+
+/* Context Menus */
+.context-menu { position: absolute; z-index: 100; background-color: #252526; border: 1px solid #454545; border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); padding: 5px 0; width: 150px; }
+.context-item { padding: 8px 15px; color: #cccccc; font-size: 13px; cursor: pointer; transition: background-color 0.2s; display: flex; align-items: center; gap: 10px; }
+.context-item:hover { background-color: #094771; color: white; }
+
+/* Print Stilleri (PDF Çıktısı İçin) */
+@media print {
+    body * { display: none !important; }
+    #print-area, #print-area * { display: block !important; }
+    #print-area { position: absolute; top: 0; left: 0; width: 100%; display: flex; flex-direction: column; gap: 20px; }
+    .print-page { width: 100%; max-width: 1200px; page-break-after: always; margin: 0 auto; box-shadow: none; border: none; }
+}
+
+/* ─── Katmanlar (Layers) Paneli ─── */
+.layers-panel { right: 10px; top: 10px; width: 230px; display: flex; flex-direction: column; gap: 8px; max-height: 80vh; }
+.layers-list { display: flex; flex-direction: column; gap: 6px; overflow-y: auto; max-height: 55vh; padding-right: 4px; }
+.layers-list::-webkit-scrollbar { width: 5px; }
+.layers-list::-webkit-scrollbar-thumb { background: #555; border-radius: 3px; }
+
+.layer-item {
+    display: flex; align-items: center; gap: 6px;
+    background: #2d2d30; border: 2px solid transparent;
+    border-radius: 6px; padding: 5px 7px;
+    cursor: pointer; transition: all 0.15s;
+}
+.layer-item:hover { background: #3e3e42; }
+.layer-item.active { border-color: #007acc; background: #1a3a5a; }
+
+.layer-eye {
+    background: none; border: none; padding: 0; width: auto;
+    font-size: 14px; cursor: pointer; flex-shrink: 0; color: #ccc;
+    margin-bottom: 0;
+}
+.layer-eye:hover { color: #fff; }
+
+.layer-thumb {
+    width: 32px; height: 42px; border-radius: 3px;
+    background: repeating-conic-gradient(#555 0% 25%, #333 0% 50%) 0 0 / 8px 8px;
+    flex-shrink: 0; border: 1px solid #555;
+}
+
+.layer-name { flex: 1; font-size: 12px; color: #ddd; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.layer-item.active .layer-name { color: #fff; font-weight: 600; }
+
+.layer-del {
+    background: none; border: none; padding: 0; width: auto;
+    font-size: 13px; cursor: pointer; color: #888; margin-bottom: 0;
+    flex-shrink: 0; opacity: 0; transition: opacity 0.15s;
+}
+.layer-item:hover .layer-del { opacity: 1; }
+.layer-del:hover { color: #e87070; }
+
+.layers-actions {
+    display: flex; flex-wrap: wrap; gap: 4px;
+    border-top: 1px solid #3e3e42; padding-top: 8px;
+}
+.layers-actions button {
+    flex: 1; min-width: 48%; padding: 5px 4px; font-size: 11px;
+    background: #333; border: 1px solid #555; border-radius: 4px;
+    color: #ddd; cursor: pointer; text-align: center; margin-bottom: 0;
+    width: auto;
+}
+.layers-actions button:hover { background: #4a4a50; color: #fff; }
+
